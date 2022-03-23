@@ -1,0 +1,6 @@
+<div class="comment" *ngFor="let comment of commentsList">
+  <app-comment-item
+    [comment]="comment"
+    [currentUser]="currentUser"
+  ></app-comment-item>
+</div>
