@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserComment, User } from 'src/app/types/CommentModel';
-import { ScoreChange } from 'src/app/types/EmitterModels';
+import { EditText, ScoreChange } from 'src/app/types/EmitterModels';
 
 @Component({
   selector: 'app-comment-item',
@@ -12,18 +12,22 @@ export class CommentItemComponent implements OnInit {
   @Input() currentUser: User | undefined;
   @Output() onChangeScore: EventEmitter<string> = new EventEmitter<string>();
   @Output() onDelete: EventEmitter<void> = new EventEmitter<void>();
-  @Output() onEdit: EventEmitter<string> = new EventEmitter<string>();
+  @Output() onSave: EventEmitter<EditText> = new EventEmitter<EditText>();
   @Output() onReplyDelete: EventEmitter<number> = new EventEmitter<number>();
   @Output() onReplyComment: EventEmitter<void> = new EventEmitter<void>();
+
   @Output() onReplyScoreChange: EventEmitter<ScoreChange> =
     new EventEmitter<ScoreChange>();
 
   imgSrc = '';
   replyText = '';
+  editingText: string | undefined;
+  isEditing: boolean = false;
   constructor() {}
 
   ngOnInit(): void {
     this.imgSrc = `./assets${this.comment?.user.image.webp.slice(1)}`;
+    this.editingText = this.comment?.content;
   }
 
   changeScore(type: string) {
@@ -35,11 +39,6 @@ export class CommentItemComponent implements OnInit {
   delete() {
     if (this.comment?.id) {
       this.onDelete.emit();
-    }
-  }
-  edit() {
-    if (this.comment?.id) {
-      this.onEdit.emit(this.comment.content);
     }
   }
 
@@ -57,5 +56,13 @@ export class CommentItemComponent implements OnInit {
     if (this.comment?.id) this.onReplyComment.emit();
   }
 
-  editText() {}
+  enableEdit() {
+    this.isEditing = true;
+  }
+  save() {
+    if (this.comment?.id) {
+      this.isEditing = false;
+      this.onSave.emit({ id: this.comment.id, content: this.editingText });
+    }
+  }
 }

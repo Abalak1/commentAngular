@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User, Reply, UserComment } from 'src/app/types/CommentModel';
-import { ScoreChange } from 'src/app/types/EmitterModels';
+import { EditText, ScoreChange } from 'src/app/types/EmitterModels';
 
 import data from '../../../data.json';
 
@@ -85,4 +85,8 @@ export class CommentShellComponent implements OnInit {
     this.newText = '';
   }
   handleOnEdit() {}
+
+  handleSave(data: EditText, index: number) {
+    this.commentsList[index].content = data.content;
+  }
 }

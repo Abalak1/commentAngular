@@ -21,17 +21,27 @@
       </button>
 
       <button
-        (click)="edit()"
-        *ngIf="comment?.user?.username == currentUser?.username"
+        (click)="enableEdit()"
+        *ngIf="comment?.user?.username == currentUser?.username && !isEditing"
         class="edit"
       >
         edit
       </button>
+      <button
+        (click)="save()"
+        *ngIf="comment?.user?.username == currentUser?.username && isEditing"
+        class="save"
+      >
+        Save
+      </button>
     </div>
   </div>
-  <p class="comment-content">
+
+  <p *ngIf="!isEditing" class="comment-content">
     {{ comment?.content }}
   </p>
+  <textarea *ngIf="isEditing" [(ngModel)]="editingText" cols="30" rows="10">
+  </textarea>
 
   <div>
     <div *ngFor="let replyItem of comment?.replies">
