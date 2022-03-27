@@ -1,6 +1,16 @@
-<div class="comment" *ngFor="let comment of commentsList">
+<ng-container *ngFor="let comment of commentsList; let i = index">
   <app-comment-item
+    (onChangeScore)="handleChangeScore($event, i)"
+    (onDelete)="handleOnDelete(comment.id)"
+    (onEdit)="handleOnEdit()"
+    (onReplyDelete)="handleOnReplyDelete($event, i)"
+    (onReplyScoreChange)="handleReplyScoreChange($event, i)"
+    (onReplyComment)="(addCommentReply)"
+    class="comment"
     [comment]="comment"
     [currentUser]="currentUser"
   ></app-comment-item>
-</div>
+</ng-container>
+
+<textarea name="" id="" cols="30" rows="10" [(ngModel)]="newText"></textarea>
+<button (click)="addComment(newText)">add comment</button>

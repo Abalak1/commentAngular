@@ -1,28 +1,47 @@
 <div class="comment-popularity">
-  <button #plus id="increment">+</button>
+  <button #plus id="increment" (click)="changeScore('plus')">+</button>
   <span #test>{{ comment?.score }}</span>
-  <button id="decrement">-</button>
+  <button id="decrement" (click)="changeScore('minus')">-</button>
 </div>
 <div class="comment-conten-container">
   <div class="comment-header">
     <div class="user-info">
-      <img [src]="comment?.user?.image?.png" alt="" />
+      <img [src]="imgSrc" alt="" />
       <p id="name">{{ comment?.user?.username }}</p>
       <p>{{ comment?.createdAt }}</p>
     </div>
     <div>
-      <textarea
-        name=""
-        id=""
-        cols="30"
-        rows="10"
-        [(ngModel)]="replyText"
-      ></textarea>
-      <button>Reply</button>
-      <button *ngIf="comment?.user?.username" class="delete">delete</button>
+      <button (click)="handleReplyComment()">Reply</button>
+      <button
+        (click)="delete()"
+        *ngIf="comment?.user?.username == currentUser?.username"
+        class="delete"
+      >
+        delete
+      </button>
+
+      <button
+        (click)="edit()"
+        *ngIf="comment?.user?.username == currentUser?.username"
+        class="edit"
+      >
+        edit
+      </button>
     </div>
   </div>
   <p class="comment-content">
     {{ comment?.content }}
   </p>
+
+  <div>
+    <div *ngFor="let replyItem of comment?.replies">
+      <app-reply
+        (onReplyScore)="handleOnReplyScore($event)"
+        (onReplyDelete)="handleDeleteReply($event)"
+        [reply]="replyItem"
+        [currentUser]="currentUser"
+      ></app-reply>
+    </div>
+    <div></div>
+  </div>
 </div>

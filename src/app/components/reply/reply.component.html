@@ -1,0 +1,30 @@
+<div class="comment comment-reply">
+  <div class="comment-popularity">
+    <button id="increment" (click)="changeReplyScore('plus')">+</button>
+    <span>{{ reply?.score }}</span>
+    <button (click)="changeReplyScore('minus')" id="decrement">-</button>
+  </div>
+  <div class="comment-conten-container">
+    <div class="comment-header">
+      <div class="user-info">
+        <img [src]="imgSrc" alt="" />
+        <p id="name">{{ reply?.user?.username }}</p>
+
+        <p>1 month ago</p>
+      </div>
+      <div>
+        <button>Reply</button>
+        <button
+          (click)="deleteReply()"
+          *ngIf="reply?.user?.username == currentUser?.username"
+          class="delete"
+        >
+          delete
+        </button>
+      </div>
+    </div>
+    <p class="comment-content">
+      {{ reply?.content }}
+    </p>
+  </div>
+</div>

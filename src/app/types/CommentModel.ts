@@ -1,5 +1,5 @@
 export interface UserComment {
-  id: Number;
+  id: number;
   content: string;
   createdAt: String;
   score: String;
@@ -16,4 +16,4 @@ export interface User {
   username: string;
 }
 
-type Reply = Omit<UserComment, 'replies'> & { replyingTo: string };
+export type Reply = Omit<UserComment, 'replies'> & { replyingTo: string };
